@@ -51,6 +51,13 @@ document.addEventListener("DOMContentLoaded", () => {
     weekend: { days: ["Saturday", "Sunday"] }, // Weekend days
   };
 
+  // Helper function to escape HTML for use in attributes
+  function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
   // Initialize filters from active elements
   function initializeFilters() {
     // Initialize day filter
@@ -570,13 +577,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       </div>
       <div class="share-buttons">
-        <button class="share-button twitter" data-activity="${name}" data-description="${details.description}" data-platform="twitter">
+        <button class="share-button twitter" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-platform="twitter">
           🐦 Share
         </button>
-        <button class="share-button facebook" data-activity="${name}" data-description="${details.description}" data-platform="facebook">
+        <button class="share-button facebook" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-platform="facebook">
           📘 Share
         </button>
-        <button class="share-button linkedin" data-activity="${name}" data-description="${details.description}" data-platform="linkedin">
+        <button class="share-button linkedin" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-platform="linkedin">
           💼 Share
         </button>
       </div>
