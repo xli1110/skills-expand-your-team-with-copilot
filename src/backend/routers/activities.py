@@ -27,7 +27,8 @@ def get_activities(
     - day: Filter activities occurring on this day (e.g., 'Monday', 'Tuesday')
     - start_time: Filter activities starting at or after this time (24-hour format, e.g., '14:30')
     - end_time: Filter activities ending at or before this time (24-hour format, e.g., '17:00')
-    - difficulty: Filter activities by difficulty level (e.g., 'Beginner', 'Intermediate', 'Advanced', 'All')
+    - difficulty: Filter activities by difficulty level (e.g., 'Beginner', 'Intermediate', 'Advanced', 'unspecified')
+                 Use 'unspecified' to show only activities without a difficulty level. Omit to show all activities.
     """
     # Build the query based on provided filters
     query = {}
@@ -43,8 +44,8 @@ def get_activities(
     
     # Handle difficulty filter
     if difficulty:
-        # "All" filter means show activities with no difficulty specified
-        if difficulty == "All":
+        # "unspecified" filter means show activities with no difficulty specified
+        if difficulty == "unspecified":
             query["difficulty"] = {"$exists": False}
         else:
             query["difficulty"] = difficulty
