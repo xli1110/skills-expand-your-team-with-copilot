@@ -569,6 +569,17 @@ document.addEventListener("DOMContentLoaded", () => {
         `
         }
       </div>
+      <div class="share-buttons">
+        <button class="share-button twitter" data-activity="${name}" data-description="${details.description}" data-platform="twitter">
+          🐦 Share
+        </button>
+        <button class="share-button facebook" data-activity="${name}" data-description="${details.description}" data-platform="facebook">
+          📘 Share
+        </button>
+        <button class="share-button linkedin" data-activity="${name}" data-description="${details.description}" data-platform="linkedin">
+          💼 Share
+        </button>
+      </div>
     `;
 
     // Add click handlers for delete buttons
@@ -586,6 +597,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     }
+
+    // Add click handlers for share buttons
+    const shareButtons = activityCard.querySelectorAll(".share-button");
+    shareButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const activityName = button.dataset.activity;
+        const description = button.dataset.description;
+        const platform = button.dataset.platform;
+        handleShare(activityName, description, platform);
+      });
+    });
 
     activitiesList.appendChild(activityCard);
   }
@@ -750,6 +772,31 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 300);
       }
     });
+  }
+
+  // Handle social sharing
+  function handleShare(activityName, description, platform) {
+    // Create shareable text
+    const text = `Check out this activity: ${activityName} - ${description}`;
+    const url = window.location.href;
+    
+    let shareUrl = "";
+    
+    switch(platform) {
+      case "twitter":
+        shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+        break;
+      case "facebook":
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`;
+        break;
+      case "linkedin":
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+        break;
+    }
+    
+    if (shareUrl) {
+      window.open(shareUrl, "_blank", "width=600,height=400");
+    }
   }
 
   // Handle unregistration with confirmation
